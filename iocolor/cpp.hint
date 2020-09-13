@@ -1,0 +1,2 @@
+#define IOCOLOR_API __declspec(dllexport)
+#define IOCOLOR_API __declspec(dllimport)
