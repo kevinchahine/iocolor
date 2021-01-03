@@ -9,8 +9,6 @@
 
 namespace iocolor
 {
-	using namespace std;
-
 	static const uint8_t BLACK = 0;
 	static const uint8_t BLUE = 1;
 	static const uint8_t GREEN = 2;
@@ -46,7 +44,8 @@ namespace iocolor
 	static WORD currColor = calcColor(WHITE, BLACK);
 	static HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	static CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
-	static stack<ios_base::fmtflags> flags;
+	static std::stack<std::ios_base::fmtflags> flags;
+	static std::stack<WORD> colorStack;
 
 	class setcolor
 	{
@@ -83,26 +82,110 @@ namespace iocolor
 		setbg(uint8_t bgColor) : setcolor(calcForeground(static_cast<uint8_t>(currColor)), bgColor) {}
 	};
 
-	class saveFlags
+	class push
 	{
 	public:
 
-		friend std::ostream& operator<<(std::ostream& os, const saveFlags& saveFlags)
+		friend std::ostream& operator<<(std::ostream& os, const push& push)
 		{
 			flags.push(os.flags());
+			colorStack.push(currColor);
 			return os;
 		}
 	};
 
-	class restoreFlags
+	class pop
 	{
 	public:
 
-		friend std::ostream& operator<<(std::ostream& os, const restoreFlags& restoreFlags)
+		friend std::ostream& operator<<(std::ostream& os, const pop& pop)
 		{
+			os << setcolor(colorStack.top());
+			colorStack.pop();
 			os.flags(flags.top());
 			flags.pop();
 			return os;
 		}
 	};
+
+	class black : public setfg {
+	public:
+		black() : setfg(iocolor::BLACK) {}
+	};
+
+	class blue : public setfg {
+	public:
+		blue() : setfg(iocolor::BLUE) {}
+	};
+
+	class green : public setfg {
+	public:
+		green() : setfg(iocolor::GREEN) {}
+	};
+
+	class cyan : public setfg {
+	public:
+		cyan() : setfg(iocolor::CYAN) {}
+	};
+
+	class red : public setfg {
+	public:
+		red() : setfg(iocolor::RED) {}
+	};
+
+	class magenta : public setfg {
+	public:
+		magenta() : setfg(iocolor::MAGENTA) {}
+	};
+
+	class yellow : public setfg {
+	public:
+		yellow() : setfg(iocolor::YELLOW) {}
+	};
+
+	class lightgray : public setfg {
+	public:
+		lightgray() : setfg(iocolor::LIGHTGRAY) {}
+	};
+
+	class gray : public setfg {
+	public:
+		gray() : setfg(iocolor::GRAY) {}
+	};
+
+	class lightblue : public setfg {
+	public:
+		lightblue() : setfg(iocolor::LIGHTBLUE) {}
+	};
+
+	class lightgreen : public setfg {
+	public:
+		lightgreen() : setfg(iocolor::LIGHTGREEN) {}
+	};
+
+	class lightcyan : public setfg {
+	public:
+		lightcyan() : setfg(iocolor::LIGHTCYAN) {}
+	};
+
+	class lightred : public setfg {
+	public:
+		lightred() : setfg(iocolor::LIGHTRED) {}
+	};
+
+	class lightmagenta : public setfg {
+	public:
+		lightmagenta() : setfg(iocolor::LIGHTMAGENTA) {}
+	};
+
+	class brown : public setfg {
+	public:
+		brown() : setfg(iocolor::BROWN) {}
+	};
+
+	class white : public setfg {
+	public:
+		white() : setfg(iocolor::WHITE) {}
+	};
+
 }

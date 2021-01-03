@@ -16,6 +16,35 @@ int main()
 		<< setfg(MAGENTA) << 'r'
 		<< setfg(GREEN) << " =====\n";
 
+	cout << setfg(WHITE) << "This color is " << setfg(GREEN) << "GREEN" << '\n';
+
+	cout << iocolor::push()
+		<< iocolor::setfg(iocolor::RED)
+		<< "IOCOLOR\n"
+		<< iocolor::pop();
+
+	cout << iocolor::push()
+		<< iocolor::lightmagenta()
+		<< "========\n"
+		<< iocolor::red() << "="
+		<< iocolor::green() << "="
+		<< iocolor::blue() << "="
+		<< ' '
+		<< iocolor::red() << 'I'
+		<< iocolor::yellow() << 'O'
+		<< iocolor::lightgreen() << 'C'
+		<< iocolor::green() << 'O'
+		<< iocolor::lightblue() << 'L'
+		<< iocolor::blue() << 'O'
+		<< iocolor::cyan() << 'R'
+		<< ' '
+		<< iocolor::lightmagenta() << '='
+		<< iocolor::magenta() << '='
+		<< iocolor::brown() << '='
+		<< iocolor::pop()
+		<< '\n';
+
+	cout << "Press any key...";
 	cin.get();
 	return 0;
 }
